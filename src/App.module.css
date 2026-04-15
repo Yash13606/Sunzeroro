@@ -1,0 +1,34 @@
+/* Global styles for SunZero website */
+
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap');
+
+/* Custom gradient utilities */
+.gradient-header {
+  background: linear-gradient(180deg, #FDA720 0%, #B75021 50.34%, #5C7083 100%);
+}
+
+.gradient-bottom {
+  background: linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 68.27%, #FDA720 100%);
+}
+
+.gradient-footer {
+  background: linear-gradient(180deg, #FDA720 0%, #FFFFFF 100%);
+}
+
+.shadow-card {
+  box-shadow: 0px 51px 52px rgba(0, 0, 0, 0.25);
+}
+
+.owners-wide {
+  font-family: 'Owners Wide', serif;
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
