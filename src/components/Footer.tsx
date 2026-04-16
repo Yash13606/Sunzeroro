@@ -1,30 +1,40 @@
 import footerBg from '../assets/background/footer-bg.png';
 
+const footerGradient = 'https://www.figma.com/api/mcp/asset/666d9387-f8f4-4e75-932e-8d1595b8c44c';
+const footerWatermark = 'https://www.figma.com/api/mcp/asset/5d9ebcf3-cfaa-4a96-9bba-896cbad15163';
+
 export default function Footer() {
   return (
-    <>
+    <div style={{
+      width: '100%',
+      position: 'relative',
+      backgroundImage: `url(${footerGradient})`,
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
+      backgroundPosition: 'top'
+    }}>
       {/* Footer main section */}
       <div style={{
         width: '100%',
-        height: 900,
+        height: 520,
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'flex-end',
-        background: '#5C7083'
+        background: 'transparent'
       }}>
 
-        {/* Bottom content bar */}
+        {/* Bottom content row */}
         <div style={{
           width: '100%',
-          padding: '40px 100px',
+          padding: '28px 100px',
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
           zIndex: 10,
-          background: 'rgba(92, 112, 131, 0.8)',
-          position: 'relative'
+          position: 'relative',
+          background: 'transparent'
         }}>
           <div style={{
             fontSize: '19.2px',
@@ -37,6 +47,13 @@ export default function Footer() {
           </div>
 
           <div style={{
+            flex: 1,
+            height: 1,
+            margin: '0 24px',
+            background: 'rgba(255, 255, 255, 0.18)'
+          }} />
+
+          <div style={{
             fontSize: '19.2px',
             fontFamily: 'Geist, sans-serif',
             fontWeight: '700',
@@ -47,26 +64,26 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Very bottom - gradient image area */}
+      {/* Very bottom - watermark area */}
       <div style={{
         width: '100%',
-        height: 370,
-        background: 'linear-gradient(180deg, #5C7083 0%, #B75021 50%, #FDA720 100%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center'
+        height: 512,
+        position: 'relative',
+        overflow: 'hidden'
       }}>
         <img
-          src={footerBg}
-          alt="SunZero"
+          src={footerWatermark}
+          alt=""
           style={{
-            width: '70%',
-            maxWidth: 1400,
-            height: 'auto',
-            opacity: 0.25
+            position: 'absolute',
+            left: 0,
+            top: 0,
+            width: '100%',
+            height: '172.88%',
+            maxWidth: 'none'
           }}
         />
       </div>
-    </>
+    </div>
   );
 }

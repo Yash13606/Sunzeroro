@@ -288,33 +288,44 @@ export default function TeamSection() {
       {/* Wide pill CTA */}
       <div style={{
         width: '100%',
-        maxWidth: 1240,
-        border: '1.5px solid #5C7083',
-        borderRadius: 40,
-        padding: '24px 60px',
+        padding: '0 40px 40px',
         display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        cursor: 'pointer'
+        justifyContent: 'center'
       }}>
-        <span style={{
-          fontSize: '24px',
-          fontFamily: 'Geist, sans-serif',
-          fontWeight: '800',
-          textTransform: 'uppercase' as const,
-          color: '#5C7083'
+        <div style={{
+          width: '100%',
+          maxWidth: 1240,
+          border: '2px solid #5C7083',
+          borderRadius: 32,
+          padding: '38px 40px 40px',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          gap: 10,
+          overflow: 'hidden',
+          cursor: 'pointer'
         }}>
-          GO NETZERO
-        </span>
-        <span style={{
-          fontSize: '24px',
-          fontFamily: 'Geist, sans-serif',
-          fontWeight: '800',
-          textTransform: 'uppercase' as const,
-          color: '#5C7083'
-        }}>
-          Book a Free Call
-        </span>
+          <span style={{
+            fontSize: '24px',
+            fontFamily: 'Geist, sans-serif',
+            fontWeight: '800',
+            textTransform: 'uppercase' as const,
+            color: '#5C7083',
+            lineHeight: '28.8px'
+          }}>
+            GO NETZERO
+          </span>
+          <span style={{
+            fontSize: '24px',
+            fontFamily: 'Geist, sans-serif',
+            fontWeight: '800',
+            textTransform: 'uppercase' as const,
+            color: '#5C7083',
+            lineHeight: '28.8px'
+          }}>
+            Book a Free Call
+          </span>
+        </div>
       </div>
     </div>
   );
