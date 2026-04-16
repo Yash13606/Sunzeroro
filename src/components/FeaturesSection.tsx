@@ -111,8 +111,8 @@ export default function FeaturesSection() {
               fontSize: '14px', fontFamily: 'Geist, sans-serif', fontWeight: '500', marginBottom: 12
             }}>1</div>
             <div style={{
-              fontSize: '24px', fontFamily: '"Owners Wide Bold", serif', fontWeight: '700',
-              color: 'white', textTransform: 'uppercase' as const, lineHeight: '1.15', marginBottom: 16
+              fontSize: '1.5rem', fontFamily: '"Owners Wide", serif', fontWeight: '700',
+              color: '#000', textTransform: 'uppercase' as const, lineHeight: '110%', marginBottom: 16
             }}>SEAS-Solar Energy As a Service</div>
             <div style={{
               fontSize: '10px', fontFamily: 'Geist, sans-serif', fontWeight: '500',
@@ -123,15 +123,15 @@ export default function FeaturesSection() {
           </div>
 
           {/* Card 2 overlay - center-right area */}
-          <div style={{ position: 'absolute', top: '38%', left: '55%', maxWidth: 260, zIndex: 3 }}>
+          <div style={{ position: 'absolute', top: 40, left: '56%', maxWidth: 260, zIndex: 3 }}>
             <div style={{
               width: 32, height: 32, borderRadius: '50%', border: '1.5px solid rgba(255,255,255,0.5)',
               display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white',
               fontSize: '14px', fontFamily: 'Geist, sans-serif', fontWeight: '500', marginBottom: 12
             }}>2</div>
             <div style={{
-              fontSize: '24px', fontFamily: '"Owners Wide Bold", serif', fontWeight: '700',
-              color: 'white', textTransform: 'uppercase' as const, lineHeight: '1.15', marginBottom: 16
+                fontSize: '1.5rem', fontFamily: '"Owners Wide", serif', fontWeight: '700',
+                color: '#000', fontStyle: 'normal', textTransform: 'uppercase' as const, lineHeight: '110%', marginBottom: 16
             }}>BEAS-Battery Energy As a Service</div>
             <div style={{
               fontSize: '10px', fontFamily: 'Geist, sans-serif', fontWeight: '500',
@@ -158,8 +158,8 @@ export default function FeaturesSection() {
                   fontSize: '14px', fontFamily: 'Geist, sans-serif', fontWeight: '500'
                 }}>{card.num}</div>
                 <div style={{
-                  fontSize: '16px', fontFamily: '"Owners Wide Bold", serif', fontWeight: '700',
-                  color: 'rgb(0, 0, 0)', textTransform: 'uppercase' as const, lineHeight: '1.15',
+                  fontSize: '1rem', fontFamily: '"Owners Wide", serif', fontWeight: '700',
+                  color: '#000', textTransform: 'uppercase' as const, lineHeight: '110%',
                   whiteSpace: 'pre-line'
                 }}>{card.title}</div>
               </div>

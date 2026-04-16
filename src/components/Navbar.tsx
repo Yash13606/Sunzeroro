@@ -1,3 +1,5 @@
+import footerBg from '../assets/background/footer-bg.png';
+
 export default function Navbar() {
   return (
     <nav style={{
@@ -28,16 +30,24 @@ export default function Navbar() {
         display: 'flex',
         alignItems: 'center'
       }}>
-        <span style={{
-          fontFamily: '"Owners Wide Bold", serif',
-          fontSize: '20px',
-          fontWeight: '700',
-          color: '#5C7083',
-          fontStyle: 'italic',
-          letterSpacing: '-0.5px'
-        }}>
-          SunZero
-        </span>
+        <span
+          role="img"
+          aria-label="SunZero"
+          style={{
+            height: 28,
+            width: 140,
+            display: 'inline-block',
+            backgroundColor: '#5C7083',
+            WebkitMaskImage: `url(${footerBg})`,
+            maskImage: `url(${footerBg})`,
+            WebkitMaskRepeat: 'no-repeat',
+            maskRepeat: 'no-repeat',
+            WebkitMaskSize: 'contain',
+            maskSize: 'contain',
+            WebkitMaskPosition: 'center',
+            maskPosition: 'center'
+          }}
+        />
       </div>
 
       <div style={{

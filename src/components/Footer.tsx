@@ -1,39 +1,19 @@
+import footerBg from '../assets/background/footer-bg.png';
+
 export default function Footer() {
   return (
     <>
-      {/* Footer with large SunZero branding background */}
+      {/* Footer main section */}
       <div style={{
         width: '100%',
         height: 900,
         position: 'relative',
         overflow: 'hidden',
-        background: 'white',
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        background: '#5C7083'
       }}>
-        {/* Large background text / image */}
-        <div style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          width: '100%',
-          height: '100%',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          opacity: 0.03
-        }}>
-          <span style={{
-            fontFamily: '"Owners Wide Black", sans-serif',
-            fontSize: '300px',
-            fontWeight: '800',
-            color: '#000',
-            whiteSpace: 'nowrap'
-          }}>
-            SunZero
-          </span>
-        </div>
 
         {/* Bottom content bar */}
         <div style={{
@@ -42,8 +22,9 @@ export default function Footer() {
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          zIndex: 2,
-          background: '#5C7083'
+          zIndex: 10,
+          background: 'rgba(92, 112, 131, 0.8)',
+          position: 'relative'
         }}>
           <div style={{
             fontSize: '19.2px',
@@ -75,16 +56,16 @@ export default function Footer() {
         alignItems: 'center',
         justifyContent: 'center'
       }}>
-        <span style={{
-          fontFamily: '"Owners Wide Bold", serif',
-          fontSize: '60px',
-          fontWeight: '700',
-          color: 'rgba(255,255,255,0.2)',
-          fontStyle: 'italic',
-          letterSpacing: '-1px'
-        }}>
-          SunZero
-        </span>
+        <img
+          src={footerBg}
+          alt="SunZero"
+          style={{
+            width: '70%',
+            maxWidth: 1400,
+            height: 'auto',
+            opacity: 0.25
+          }}
+        />
       </div>
     </>
   );
