@@ -78,9 +78,9 @@ export default function FeaturesSection() {
             style={{
               position: 'absolute',
               top: '50%',
-              left: '35%',
+              left: '47%',
               transform: 'translate(-50%, -50%) rotate(5deg)',
-              width: '280px',
+              width: '800px',
               height: 'auto',
               zIndex: 1,
               pointerEvents: 'none',
@@ -93,12 +93,12 @@ export default function FeaturesSection() {
             alt=""
             style={{
               position: 'absolute',
-              top: '50%',
-              left: '55%',
+              top: '68%',
+              left: '65%',
               transform: 'translate(-50%, -45%) rotate(-8deg)',
-              width: '280px',
+              width: '800px',
               height: 'auto',
-              zIndex: 2,
+              zIndex: 5,
               pointerEvents: 'none',
             }}
           />
