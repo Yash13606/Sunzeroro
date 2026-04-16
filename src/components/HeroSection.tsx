@@ -4,7 +4,7 @@ export default function HeroSection() {
   return (
     <div style={{
       width: '100%',
-      height: 'calc(100vh - 70px)',
+      height: '120vh',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
@@ -100,8 +100,8 @@ export default function HeroSection() {
         position: 'absolute',
         top: 162,
         left: 0,
-        width: '100%',
-        height: 810,
+        right: 0,
+        bottom: 0,
         zIndex: 1,
         overflow: 'hidden'
       }}>
