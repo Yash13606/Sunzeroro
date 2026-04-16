@@ -12,7 +12,6 @@ const hoverVikash = 'https://www.figma.com/api/mcp/asset/753d1150-f2fc-47d3-af0f
 export default function TeamSection() {
   const { isMobile } = useResponsive();
   const [hoveredMember, setHoveredMember] = useState<number | null>(null);
-  const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const urls = [
@@ -49,14 +48,9 @@ export default function TeamSection() {
     backgroundColor: '#fff'
   };
 
-  const handleTextHover = (memberIdx: number, e: React.MouseEvent) => {
+  const handleTextHover = (memberIdx: number) => {
     if (isMobile) return;
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     setHoveredMember(memberIdx);
-    setHoverPosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
-    });
   };
 
   const handleTextClick = (memberIdx: number, e: React.MouseEvent) => {
@@ -65,13 +59,8 @@ export default function TeamSection() {
     setHoveredMember((current) => (current === memberIdx ? null : memberIdx));
   };
 
-  const handleMouseMove = (e: React.MouseEvent) => {
+  const handleMouseMove = () => {
     if (isMobile) return;
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-    setHoverPosition({
-      x: e.clientX - rect.left,
-      y: e.clientY - rect.top
-    });
   };
 
   return (
@@ -110,7 +99,7 @@ export default function TeamSection() {
               cursor: 'pointer',
               position: 'relative'
             }}
-            onMouseEnter={(e) => handleTextHover(0, e)}
+            onMouseEnter={() => handleTextHover(0)}
             onClick={(e) => handleTextClick(0, e)}
           >
             SOLAR ENERGY VETRAN
@@ -161,7 +150,7 @@ export default function TeamSection() {
               cursor: 'pointer',
               position: 'relative'
             }}
-            onMouseEnter={(e) => handleTextHover(1, e)}
+            onMouseEnter={() => handleTextHover(1)}
           >
             Experts in battery storage
             {hoveredMember === 1 && (
@@ -177,22 +166,22 @@ export default function TeamSection() {
                 }}
               >
                 <div style={{ position: 'absolute', left: 0, top: 0, transform: 'rotate(-6.15deg)' }}>
-                  <div style={nameStyleBase}>Priyanka Tyagi</div>
+                  <div style={nameStyleBase}>Arpan Dixit</div>
                 </div>
                 <div style={{ position: 'absolute', left: 197.5, top: 0, transform: 'rotate(10.03deg)' }}>
-                  <div style={nameStyleBase}>Harpreet Sohal</div>
+                  <div style={nameStyleBase}>Joris Vlasblom</div>
                 </div>
                 <div style={{ position: 'absolute', left: 28, top: 30, transform: 'rotate(-5.14deg)' }}>
                   <div style={imageBase}>
                     <img
-                      src={hoverPriyanka}
-                      alt="Priyanka Tyagi"
+                      src={hoverArpan}
+                      alt="Arpan Dixit"
                       style={{
                         position: 'absolute',
-                        width: '120.53%',
-                        height: '124.3%',
-                        left: '-12.83%',
-                        top: '-8.37%'
+                        width: '380.63%',
+                        height: '522.95%',
+                        left: '-110.29%',
+                        top: '-133.07%'
                       }}
                     />
                   </div>
@@ -200,14 +189,14 @@ export default function TeamSection() {
                 <div style={{ position: 'absolute', left: 193, top: 26.95, transform: 'rotate(10.3deg)' }}>
                   <div style={imageBase}>
                     <img
-                      src={hoverHarpreet}
-                      alt="Harpreet Sohal"
+                      src={hoverJoris}
+                      alt="Joris Vlasblom"
                       style={{
                         position: 'absolute',
-                        width: '162.98%',
-                        height: '204%',
-                        left: '-28.93%',
-                        top: '-25.55%'
+                        width: '118.03%',
+                        height: '121.72%',
+                        left: '-9.02%',
+                        top: '-1.41%'
                       }}
                     />
                   </div>
@@ -225,7 +214,7 @@ export default function TeamSection() {
               display: 'inline',
               position: 'relative'
             }}
-            onMouseEnter={(e) => handleTextHover(2, e)}
+            onMouseEnter={() => handleTextHover(2)}
             onMouseLeave={() => setHoveredMember(null)}
             onClick={(e) => handleTextClick(2, e)}
           >
@@ -263,16 +252,16 @@ export default function TeamSection() {
                 }}
               >
                 <div style={{ position: 'absolute', left: 0, top: 0, transform: 'rotate(-11.72deg)' }}>
-                  <div style={nameStyleBase}>Vishesh Bajpai</div>
+                  <div style={nameStyleBase}>Priyanka Tyagi</div>
                 </div>
                 <div style={{ position: 'absolute', left: 187.46, top: 0, transform: 'rotate(8.94deg)' }}>
-                  <div style={nameStyleBase}>Vikash Mehrotra</div>
+                  <div style={nameStyleBase}>Harpreet Sohal</div>
                 </div>
                 <div style={{ position: 'absolute', left: 24.46, top: 28.03, transform: 'rotate(-11.75deg)' }}>
                   <div style={imageBase}>
                     <img
-                      src={hoverVishesh}
-                      alt="Vishesh Bajpai"
+                      src={hoverPriyanka}
+                      alt="Priyanka Tyagi"
                       style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
                     />
                   </div>
@@ -280,14 +269,14 @@ export default function TeamSection() {
                 <div style={{ position: 'absolute', left: 195.96, top: 26.44, transform: 'rotate(8.18deg)' }}>
                   <div style={imageBase}>
                     <img
-                      src={hoverVikash}
-                      alt="Vikash Mehrotra"
+                      src={hoverHarpreet}
+                      alt="Harpreet Sohal"
                       style={{
                         position: 'absolute',
-                        width: '184.44%',
-                        height: '190.21%',
-                        left: '-40.02%',
-                        top: '-1.65%'
+                        width: '162.98%',
+                        height: '204%',
+                        left: '-28.93%',
+                        top: '-25.55%'
                       }}
                     />
                   </div>
@@ -304,7 +293,7 @@ export default function TeamSection() {
               display: 'inline',
               position: 'relative'
             }}
-            onMouseEnter={(e) => handleTextHover(4, e)}
+            onMouseEnter={() => handleTextHover(4)}
             onMouseLeave={() => setHoveredMember(null)}
             onClick={(e) => handleTextClick(4, e)}
           >
@@ -342,38 +331,37 @@ export default function TeamSection() {
                 }}
               >
                 <div style={{ position: 'absolute', left: 0, top: 0, transform: 'rotate(-11.81deg)' }}>
-                  <div style={nameStyleBase}>Arpan Dixit</div>
+                  <div style={nameStyleBase}>Vishesh Bajpai</div>
                 </div>
-                <div style={{ position: 'absolute', left: 160, top: 0, transform: 'rotate(8.8deg)' }}>
-                  <div style={nameStyleBase}>Joris Vlasblom</div>
+                <div style={{ position: 'absolute', left: 180, top: 0, transform: 'rotate(8.8deg)' }}>
+                  <div style={nameStyleBase}>Vikash Mehrotra</div>
                 </div>
                 <div style={{ position: 'absolute', left: 0, top: 26, transform: 'rotate(-10.88deg)' }}>
                   <div style={{ ...imageBase, width: 152, height: 152 }}>
                     <img
-                      src={hoverArpan}
-                      alt="Arpan Dixit"
+                      src={hoverVishesh}
+                      alt="Vishesh Bajpai"
                       style={{
                         position: 'absolute',
-                        width: '380.63%',
-                        height: '522.95%',
-                        left: '-110.29%',
-                        top: '-133.07%'
+                        inset: 0,
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover'
                       }}
                     />
-                    <div style={{ position: 'absolute', inset: 0, background: 'rgba(0, 0, 0, 0.2)' }} />
                   </div>
                 </div>
                 <div style={{ position: 'absolute', left: 160, top: 29.87, transform: 'rotate(8.97deg)' }}>
                   <div style={{ ...imageBase, width: 130, height: 129 }}>
                     <img
-                      src={hoverJoris}
-                      alt="Joris Vlasblom"
+                      src={hoverVikash}
+                      alt="Vikash Mehrotra"
                       style={{
                         position: 'absolute',
-                        width: '118.03%',
-                        height: '121.72%',
-                        left: '-9.02%',
-                        top: '-1.41%'
+                        width: '184.44%',
+                        height: '190.21%',
+                        left: '-40.02%',
+                        top: '-1.65%'
                       }}
                     />
                   </div>

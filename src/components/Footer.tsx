@@ -1,4 +1,3 @@
-import footerBg from '../assets/background/footer-bg.png';
 import { useResponsive } from '../hooks/useResponsive';
 
 const footerGradient = 'https://www.figma.com/api/mcp/asset/666d9387-f8f4-4e75-932e-8d1595b8c44c';
