@@ -1,18 +1,22 @@
 import whyImg from '../assets/features/why-sunzero-1.png';
+import { useResponsive } from '../hooks/useResponsive';
 
 export default function WhySunZero() {
+  const { isMobile } = useResponsive();
+
   return (
     <div style={{
       width: '100%',
-      minHeight: 600,
+      minHeight: isMobile ? 'auto' : 600,
       background: 'rgb(120, 41, 23)',
       display: 'flex',
+      flexDirection: isMobile ? 'column' : 'row',
       position: 'relative',
       overflow: 'hidden'
     }}>
       {/* Left: Image */}
       <div style={{
-        flex: '0 0 45%',
+        flex: isMobile ? '0 0 auto' : '0 0 45%',
         display: 'flex',
         alignItems: 'stretch',
         position: 'relative'
@@ -22,7 +26,7 @@ export default function WhySunZero() {
           alt="Why SunZero"
           style={{
             width: '100%',
-            height: '100%',
+            height: isMobile ? 260 : '100%',
             objectFit: 'cover'
           }}
         />
@@ -34,12 +38,12 @@ export default function WhySunZero() {
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        padding: '60px 80px',
+        padding: isMobile ? '40px 20px' : '60px 80px',
         gap: 20
       }}>
         {/* Heading */}
         <div style={{
-          fontSize: '25.6px',
+          fontSize: isMobile ? '22px' : '25.6px',
           fontFamily: '"Owners Wide Black", sans-serif',
           fontWeight: '800',
           color: 'rgb(253, 167, 32)',
@@ -50,7 +54,7 @@ export default function WhySunZero() {
 
         {/* Subheading */}
         <div style={{
-          fontSize: '16px',
+          fontSize: isMobile ? '14px' : '16px',
           fontFamily: 'Geist, sans-serif',
           fontWeight: '700',
           color: 'rgb(253, 167, 32)',

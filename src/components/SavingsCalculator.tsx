@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { useResponsive } from '../hooks/useResponsive';
 
 const frame107Low = 'https://www.figma.com/api/mcp/asset/f3aa740c-c0da-43c2-813f-152286549639';
 const ellipse1Low = 'https://www.figma.com/api/mcp/asset/3d2fd923-2cae-4f6e-be16-39391d68bbb5';
@@ -24,6 +25,7 @@ const ellipse4High = 'https://www.figma.com/api/mcp/asset/7dc1881a-3ebb-47f3-821
 const ellipse3High = 'https://www.figma.com/api/mcp/asset/5a18b88e-d93b-4822-800f-2f25f303b466';
 
 export default function SavingsCalculator() {
+  const { isMobile } = useResponsive();
   const [monthlyBill, setMonthlyBill] = useState(14000);
   const [isDragging, setIsDragging] = useState(false);
   const ringRef = useRef<HTMLDivElement | null>(null);
@@ -47,8 +49,8 @@ export default function SavingsCalculator() {
   ];
   const monthlySavings = Math.round(monthlyBill * 0.417);
   const yearlySavings = monthlySavings * 12;
-  const knobInset = 26
-  const baseRingSize = 374;
+  const knobInset = 26;
+  const baseRingSize = isMobile ? 260 : 374;
 
   useEffect(() => {
     const urls = [
@@ -171,7 +173,7 @@ export default function SavingsCalculator() {
   return (
     <div style={{
       width: '100%',
-      padding: '24px 100px',
+      padding: isMobile ? '24px 20px' : '24px 100px',
       background: 'white'
     }}>
       <div style={{
@@ -184,11 +186,11 @@ export default function SavingsCalculator() {
         alignItems: 'center'
       }}>
         <div style={{
-          fontSize: 48,
+          fontSize: isMobile ? 28 : 48,
           fontFamily: '"Owners Wide Bold", serif',
           fontWeight: '700',
           color: '#000',
-          lineHeight: '56.32px',
+          lineHeight: isMobile ? '34px' : '56.32px',
           textAlign: 'center'
         }}>
           Calculate your savings
@@ -197,17 +199,19 @@ export default function SavingsCalculator() {
         <div style={{
           width: '100%',
           display: 'flex',
-          gap: 10,
-          height: 560
+          flexDirection: isMobile ? 'column' : 'row',
+          gap: isMobile ? 16 : 10,
+          height: isMobile ? 'auto' : 560
         }}>
           <div style={{
-            flex: '0 0 50%',
+            flex: isMobile ? '0 0 auto' : '0 0 50%',
             minWidth: 0,
             background: '#ddd',
             borderRadius: 20,
-            padding: '76px 48px',
+            padding: isMobile ? '32px 20px' : '76px 48px',
             display: 'flex',
-            gap: 40,
+            flexDirection: isMobile ? 'column' : 'row',
+            gap: isMobile ? 20 : 40,
             alignItems: 'center',
             justifyContent: 'center'
           }}>
@@ -328,7 +332,7 @@ export default function SavingsCalculator() {
             <div style={{
               display: 'flex',
               flexDirection: 'column',
-              gap: 36,
+              gap: isMobile ? 20 : 36,
               fontFamily: 'Inter, sans-serif',
               fontWeight: '700'
             }}>
@@ -346,7 +350,7 @@ export default function SavingsCalculator() {
                   Yearly Savings
                 </div>
                 <div style={{
-                  fontSize: 48,
+                  fontSize: isMobile ? 32 : 48,
                   color: '#000',
                   letterSpacing: '-0.36px',
                   lineHeight: '1.2',
@@ -370,7 +374,7 @@ export default function SavingsCalculator() {
                   Monthly Savings
                 </div>
                 <div style={{
-                  fontSize: 48,
+                  fontSize: isMobile ? 32 : 48,
                   color: '#000',
                   letterSpacing: '-0.36px',
                   lineHeight: '1.2',
@@ -384,11 +388,12 @@ export default function SavingsCalculator() {
           </div>
 
           <div style={{
-            flex: '0 0 50%',
+            flex: isMobile ? '0 0 auto' : '0 0 50%',
             minWidth: 0,
             position: 'relative',
             borderRadius: 20,
-            overflow: 'hidden'
+            overflow: 'hidden',
+            height: isMobile ? 320 : 'auto'
           }}>
             {variant.images.map((src) => (
               <img

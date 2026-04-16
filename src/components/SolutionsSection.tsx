@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
+import { useResponsive } from '../hooks/useResponsive';
 import stickyFull from '../assets/background/sticky-full.png';
 import stickyMeasure from '../assets/background/sticky-measure.png';
 import stickyBattery from '../assets/background/sticky-battery.png';
 import stickyCoins from '../assets/background/sticky-coins.png';
 
 export default function SolutionsSection() {
+  const { isMobile } = useResponsive();
   const icons = [
     '/icons/icon-dollar.svg',
     '/icons/icon-bolt-dollar.svg',
@@ -89,7 +91,7 @@ export default function SolutionsSection() {
       {/* Icon Marquee */}
       <div style={{
         width: '100%',
-        padding: '40px 0',
+        padding: isMobile ? '24px 0' : '40px 0',
         background: 'white',
         overflow: 'hidden'
       }}>
@@ -104,8 +106,8 @@ export default function SolutionsSection() {
               src={icon}
               alt=""
               style={{
-                width: 70,
-                height: 70,
+                width: isMobile ? 48 : 70,
+                height: isMobile ? 48 : 70,
                 flexShrink: 0,
                 opacity: (idx % icons.length < 1) ? 0.3 : 1
               }}
@@ -135,23 +137,24 @@ export default function SolutionsSection() {
         {/* Net Zero heading + full image intro */}
         <div style={{
           width: '100%',
-          padding: '60px 100px 200px',
+          padding: isMobile ? '40px 20px 80px' : '60px 100px 200px',
           position: 'relative',
           overflow: 'hidden',
-          minHeight: '100vh',
+          minHeight: isMobile ? 'auto' : '100vh',
           display: 'flex',
-          alignItems: 'flex-start',
+          flexDirection: isMobile ? 'column' : 'row',
+          alignItems: isMobile ? 'flex-start' : 'flex-start',
         }}>
           <div style={{
-            fontSize: '60.8px',
+            fontSize: isMobile ? '32px' : '60.8px',
             fontFamily: '"Owners Wide Black", sans-serif',
             fontWeight: '700',
             color: 'rgb(183, 80, 33)',
             lineHeight: '1.15',
-            maxWidth: 600,
+            maxWidth: isMobile ? '100%' : 600,
             position: 'relative',
             zIndex: 2,
-            paddingTop: 60,
+            paddingTop: isMobile ? 0 : 60,
           }}>
             Net Zero Made Simple, Scalable & Profitable
           </div>
@@ -161,13 +164,14 @@ export default function SolutionsSection() {
             src={stickyFull}
             alt=""
             style={{
-              position: 'absolute',
-              bottom: -40,
-              right: -40,
-              width: '60%',
-              maxWidth: 800,
+              position: isMobile ? 'relative' : 'absolute',
+              bottom: isMobile ? 'auto' : -40,
+              right: isMobile ? 'auto' : -40,
+              width: isMobile ? '100%' : '60%',
+              maxWidth: isMobile ? '100%' : 800,
               objectFit: 'contain',
               zIndex: 1,
+              marginTop: isMobile ? 24 : 0
             }}
           />
         </div>
@@ -176,12 +180,13 @@ export default function SolutionsSection() {
         <div style={{
           display: 'flex',
           position: 'relative',
-          minHeight: '100vh',
+          minHeight: isMobile ? 'auto' : '100vh',
+          flexDirection: isMobile ? 'column' : 'row'
         }}>
           {/* Left: Scrolling solution cards */}
           <div style={{
-            flex: '0 0 50%',
-            padding: '0 100px',
+            flex: isMobile ? '0 0 auto' : '0 0 50%',
+            padding: isMobile ? '0 20px' : '0 100px',
             position: 'relative',
             zIndex: 2,
           }}>
@@ -190,12 +195,12 @@ export default function SolutionsSection() {
                 key={idx}
                 ref={(el) => { cardRefs.current[idx] = el; }}
                 style={{
-                  minHeight: '100vh',
+                  minHeight: isMobile ? 'auto' : '100vh',
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'center',
-                  paddingBottom: 80,
-                  paddingTop: idx === 0 ? 0 : 40,
+                  paddingBottom: isMobile ? 48 : 80,
+                  paddingTop: idx === 0 ? 0 : isMobile ? 24 : 40,
                 }}
               >
                 {/* Label */}
@@ -214,17 +219,17 @@ export default function SolutionsSection() {
                 <img
                   src={solution.icon}
                   alt=""
-                  style={{ width: 70, height: 70, marginBottom: 16 }}
+                  style={{ width: isMobile ? 52 : 70, height: isMobile ? 52 : 70, marginBottom: 16 }}
                 />
 
                 {/* Title */}
                 <div style={{
-                  fontSize: '28.8px',
+                  fontSize: isMobile ? '20px' : '28.8px',
                   fontFamily: '"Owners Wide Black", sans-serif',
                   fontWeight: '900',
                   color: 'rgb(0, 0, 0)',
                   lineHeight: '1.3',
-                  maxWidth: 500,
+                  maxWidth: isMobile ? '100%' : 500,
                   marginBottom: 20
                 }}>
                   {solution.title}
@@ -232,12 +237,12 @@ export default function SolutionsSection() {
 
                 {/* Description */}
                 <div style={{
-                  fontSize: '19.2px',
+                  fontSize: isMobile ? '14px' : '19.2px',
                   fontFamily: 'Geist, sans-serif',
                   fontWeight: '500',
                   color: 'rgba(0, 0, 0, 0.4)',
                   lineHeight: '1.6',
-                  maxWidth: 500,
+                  maxWidth: isMobile ? '100%' : 500,
                   marginBottom: 24
                 }}>
                   {solution.description}
@@ -286,21 +291,22 @@ export default function SolutionsSection() {
 
           {/* Right: Sticky image */}
           <div style={{
-            flex: '0 0 50%',
-            position: 'sticky',
-            top: 0,
-            height: '100vh',
+            flex: isMobile ? '0 0 auto' : '0 0 50%',
+            position: isMobile ? 'relative' : 'sticky',
+            top: isMobile ? 'auto' : 0,
+            height: isMobile ? 'auto' : '100vh',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             overflow: 'hidden',
+            padding: isMobile ? '0 20px 40px' : 0
           }}>
             <img
               src={activeImage}
               alt="SunZero Solutions"
               style={{
-                width: '90%',
-                maxWidth: 700,
+                width: isMobile ? '100%' : '90%',
+                maxWidth: isMobile ? '100%' : 700,
                 objectFit: 'contain',
                 transition: 'opacity 0.4s ease-in-out, transform 0.4s ease-in-out',
                 opacity: isTransitioning ? 0.3 : 1,

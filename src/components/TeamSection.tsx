@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useResponsive } from '../hooks/useResponsive';
 
 const hoverArpanSolo = 'https://www.figma.com/api/mcp/asset/061f6082-db41-47ca-8f1e-9cb0fa9b238c';
 const hoverArpan = 'https://www.figma.com/api/mcp/asset/49a021a6-d32d-4b27-8f24-ca5df6797c43';
@@ -9,6 +10,7 @@ const hoverVishesh = 'https://www.figma.com/api/mcp/asset/60f41813-ebbc-4971-988
 const hoverVikash = 'https://www.figma.com/api/mcp/asset/753d1150-f2fc-47d3-af0f-90da87ca7c2c';
 
 export default function TeamSection() {
+  const { isMobile } = useResponsive();
   const [hoveredMember, setHoveredMember] = useState<number | null>(null);
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
 
@@ -48,6 +50,7 @@ export default function TeamSection() {
   };
 
   const handleTextHover = (memberIdx: number, e: React.MouseEvent) => {
+    if (isMobile) return;
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     setHoveredMember(memberIdx);
     setHoverPosition({
@@ -56,7 +59,14 @@ export default function TeamSection() {
     });
   };
 
+  const handleTextClick = (memberIdx: number, e: React.MouseEvent) => {
+    if (!isMobile) return;
+    e.stopPropagation();
+    setHoveredMember((current) => (current === memberIdx ? null : memberIdx));
+  };
+
   const handleMouseMove = (e: React.MouseEvent) => {
+    if (isMobile) return;
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     setHoverPosition({
       x: e.clientX - rect.left,
@@ -67,7 +77,7 @@ export default function TeamSection() {
   return (
     <div style={{
       width: '100%',
-      padding: '80px 100px 40px',
+      padding: isMobile ? '60px 20px 40px' : '80px 100px 40px',
       background: 'white',
       display: 'flex',
       flexDirection: 'column',
@@ -78,15 +88,18 @@ export default function TeamSection() {
       <div
         style={{
           textAlign: 'center',
-          fontSize: '48px',
+          fontSize: isMobile ? '28px' : '48px',
           textTransform: 'uppercase' as const,
-          lineHeight: '1.3',
+          lineHeight: isMobile ? '1.2' : '1.3',
           color: 'rgb(0, 0, 0)',
           maxWidth: 1240,
           position: 'relative'
         }}
         onMouseMove={handleMouseMove}
         onMouseLeave={() => setHoveredMember(null)}
+        onClick={() => {
+          if (isMobile) setHoveredMember(null);
+        }}
       >
         <div>
           <span style={{ fontFamily: '"Owners XNarrow", serif', fontWeight: '400' }}>A TEAM OF EXPERTS </span>
@@ -98,6 +111,7 @@ export default function TeamSection() {
               position: 'relative'
             }}
             onMouseEnter={(e) => handleTextHover(0, e)}
+            onClick={(e) => handleTextClick(0, e)}
           >
             SOLAR ENERGY VETRAN
             {hoveredMember === 0 && (
@@ -213,6 +227,7 @@ export default function TeamSection() {
             }}
             onMouseEnter={(e) => handleTextHover(2, e)}
             onMouseLeave={() => setHoveredMember(null)}
+            onClick={(e) => handleTextClick(2, e)}
           >
             <span
               style={{
@@ -291,6 +306,7 @@ export default function TeamSection() {
             }}
             onMouseEnter={(e) => handleTextHover(4, e)}
             onMouseLeave={() => setHoveredMember(null)}
+            onClick={(e) => handleTextClick(4, e)}
           >
             <span
               style={{
@@ -371,7 +387,7 @@ export default function TeamSection() {
       {/* Wide pill CTA */}
       <div style={{
         width: '100%',
-        padding: '0 40px 40px',
+        padding: isMobile ? '0 20px 40px' : '0 40px 40px',
         display: 'flex',
         justifyContent: 'center'
       }}>
@@ -379,9 +395,10 @@ export default function TeamSection() {
           width: '100%',
           maxWidth: 1240,
           border: '2px solid #5C7083',
-          borderRadius: 32,
-          padding: '38px 40px 40px',
+          borderRadius: isMobile ? 20 : 32,
+          padding: isMobile ? '18px 16px' : '38px 40px 40px',
           display: 'flex',
+          flexDirection: isMobile ? 'column' : 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
           gap: 10,
@@ -389,22 +406,24 @@ export default function TeamSection() {
           cursor: 'pointer'
         }}>
           <span style={{
-            fontSize: '24px',
+            fontSize: isMobile ? '16px' : '24px',
             fontFamily: 'Geist, sans-serif',
             fontWeight: '800',
             textTransform: 'uppercase' as const,
             color: '#5C7083',
-            lineHeight: '28.8px'
+            lineHeight: isMobile ? '20px' : '28.8px',
+            textAlign: 'center'
           }}>
             GO NETZERO
           </span>
           <span style={{
-            fontSize: '24px',
+            fontSize: isMobile ? '16px' : '24px',
             fontFamily: 'Geist, sans-serif',
             fontWeight: '800',
             textTransform: 'uppercase' as const,
             color: '#5C7083',
-            lineHeight: '28.8px'
+            lineHeight: isMobile ? '20px' : '28.8px',
+            textAlign: 'center'
           }}>
             Book a Free Call
           </span>

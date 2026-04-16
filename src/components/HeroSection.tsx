@@ -1,15 +1,19 @@
 import { FadeIn } from '../hooks/useAnimations';
+import { useResponsive } from '../hooks/useResponsive';
 
 export default function HeroSection() {
+  const { isMobile } = useResponsive();
+  const videoTop = isMobile ? 220 : 162;
+
   return (
     <div style={{
       width: '100%',
-      height: '120vh',
+      height: isMobile ? '90vh' : '120vh',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       textAlign: 'center',
-      paddingTop: 80,
+      paddingTop: isMobile ? 60 : 50,
       background: 'white',
       position: 'relative',
       overflow: 'hidden'
@@ -24,30 +28,32 @@ export default function HeroSection() {
       }}>
         <FadeIn delay={0.1}>
           <p style={{
-            fontSize: '25.6px',
+            fontSize: isMobile ? '18px' : '25.6px',
             fontFamily: '"Owners Wide Black", sans-serif',
             fontWeight: '800',
-            lineHeight: '30.72px',
+            lineHeight: isMobile ? '24px' : '30.72px',
             letterSpacing: '0.256px',
             color: 'rgb(0, 0, 0)',
             textAlign: 'center',
             margin: 0,
             padding: 0
+            
           }}>
             We make Net Zero adoption effortless
           </p>
         </FadeIn>
         <FadeIn delay={0.2}>
           <p style={{
-            fontSize: '25.6px',
+            fontSize: isMobile ? '18px' : '25.6px',
             fontFamily: '"Owners Wide Black", sans-serif',
             fontWeight: '800',
-            lineHeight: '30.72px',
+            lineHeight: isMobile ? '24px' : '30.72px',
             letterSpacing: '0.256px',
             color: 'rgb(0, 0, 0)',
             textAlign: 'center',
             margin: 0,
-            padding: 0
+            padding: 0,
+          
           }}>
             and profitable for every business.
           </p>
@@ -56,8 +62,8 @@ export default function HeroSection() {
         {/* Button */}
         <FadeIn delay={0.4}>
           <div style={{
-            marginTop: 10,
-            padding: '10px 20px',
+            marginTop: isMobile ? 12 : 10,
+            padding: isMobile ? '8px 16px' : '10px 20px',
             borderRadius: 12,
             border: '1.5px solid #5C7083',
             background: 'transparent',
@@ -81,7 +87,7 @@ export default function HeroSection() {
           }}
           >
             <span style={{
-              fontSize: '12.8px',
+              fontSize: isMobile ? '11px' : '12.8px',
               fontFamily: 'Geist, sans-serif',
               fontWeight: '800',
               textTransform: 'uppercase' as const,
@@ -98,10 +104,10 @@ export default function HeroSection() {
       {/* Video background */}
       <div style={{
         position: 'absolute',
-        top: 162,
+        top: videoTop,
         left: 0,
         right: 0,
-        bottom: 0,
+        height: `calc(100% - ${videoTop}px)`,
         zIndex: 1,
         overflow: 'hidden'
       }}>
@@ -116,7 +122,7 @@ export default function HeroSection() {
             objectFit: 'cover'
           }}
         >
-          <source src="/assets/hero-video.mp4" type="video/mp4" />
+          <source src={isMobile ? "/assets/hero-video-mobile.mp4" : "/assets/hero-video.mp4"} type="video/mp4" />
         </video>
       </div>
     </div>

@@ -1,9 +1,12 @@
 import footerBg from '../assets/background/footer-bg.png';
+import { useResponsive } from '../hooks/useResponsive';
 
 const footerGradient = 'https://www.figma.com/api/mcp/asset/666d9387-f8f4-4e75-932e-8d1595b8c44c';
 const footerWatermark = 'https://www.figma.com/api/mcp/asset/5d9ebcf3-cfaa-4a96-9bba-896cbad15163';
 
 export default function Footer() {
+  const { isMobile } = useResponsive();
+
   return (
     <div style={{
       width: '100%',
@@ -16,7 +19,7 @@ export default function Footer() {
       {/* Footer main section */}
       <div style={{
         width: '100%',
-        height: 520,
+        height: isMobile ? 420 : 520,
         position: 'relative',
         overflow: 'hidden',
         display: 'flex',
@@ -28,16 +31,17 @@ export default function Footer() {
         {/* Bottom content row */}
         <div style={{
           width: '100%',
-          padding: '28px 100px',
+          padding: isMobile ? '24px 20px' : '28px 100px',
           display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          flexDirection: isMobile ? 'column' : 'row',
+          justifyContent: isMobile ? 'center' : 'space-between',
+          alignItems: isMobile ? 'flex-start' : 'center',
           zIndex: 10,
           position: 'relative',
           background: 'transparent'
         }}>
           <div style={{
-            fontSize: '19.2px',
+            fontSize: isMobile ? '16px' : '19.2px',
             fontFamily: 'Geist, sans-serif',
             fontWeight: '400',
             color: 'rgb(255, 255, 255)',
@@ -47,14 +51,15 @@ export default function Footer() {
           </div>
 
           <div style={{
-            flex: 1,
+            flex: isMobile ? '0 0 auto' : 1,
+            width: isMobile ? '100%' : 'auto',
             height: 1,
-            margin: '0 24px',
+            margin: isMobile ? '16px 0' : '0 24px',
             background: 'rgba(255, 255, 255, 0.18)'
           }} />
 
           <div style={{
-            fontSize: '19.2px',
+            fontSize: isMobile ? '16px' : '19.2px',
             fontFamily: 'Geist, sans-serif',
             fontWeight: '700',
             color: 'rgb(255, 255, 255)'
