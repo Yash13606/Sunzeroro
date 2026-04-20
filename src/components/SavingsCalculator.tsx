@@ -51,7 +51,7 @@ export default function SavingsCalculator() {
   const monthlySavings = Math.round(monthlyBill * 0.417);
   const yearlySavings = monthlySavings * 12;
   const knobInset = 26;
-  const baseRingSize = isMobile ? 260 : 374;
+  const baseRingSize = isMobile ? 228 : 374;
 
   useEffect(() => {
     const urls = [
@@ -182,16 +182,18 @@ export default function SavingsCalculator() {
   return (
     <div style={{
       width: '100%',
-      padding: isMobile ? '24px 20px' : '24px 100px',
+      boxSizing: 'border-box',
+      padding: isMobile ? '20px 14px' : '24px 100px',
       background: 'white'
     }}>
       <div style={{
         width: '100%',
+        boxSizing: 'border-box',
         maxWidth: 1240,
         margin: '0 auto',
         display: 'flex',
         flexDirection: 'column',
-        gap: 40,
+        gap: isMobile ? 24 : 40,
         alignItems: 'center'
       }}>
         <div style={{
@@ -207,17 +209,19 @@ export default function SavingsCalculator() {
 
         <div style={{
           width: '100%',
+          boxSizing: 'border-box',
           display: 'flex',
           flexDirection: isMobile ? 'column' : 'row',
-          gap: isMobile ? 16 : 20,
+          gap: isMobile ? 12 : 20,
           height: isMobile ? 'auto' : 560
         }}>
           <div style={{
             flex: isMobile ? '0 0 auto' : '0 0 50%',
             minWidth: 0,
+            width: isMobile ? '100%' : undefined,
             background: 'linear-gradient(135deg, #f5f7fa 0%, #f0f3f8 100%)',
             borderRadius: 20,
-            padding: isMobile ? '32px 20px' : '60px 40px',
+            padding: isMobile ? '22px 14px' : '60px 40px',
             display: 'flex',
             flexDirection: isMobile ? 'column' : 'row',
             gap: isMobile ? 20 : 36,
@@ -240,6 +244,7 @@ export default function SavingsCalculator() {
                   width: '100%',
                   height: '100%',
                   cursor: isDragging ? 'grabbing' : 'grab',
+                  touchAction: 'none',
                   transform: `scale(${baseRingSize / variant.ringSize})`,
                   transformOrigin: 'top left',
                   filter: isDragging ? 'brightness(1.02)' : 'brightness(1)'
@@ -356,6 +361,9 @@ export default function SavingsCalculator() {
               flex: isMobile ? '0 0 auto' : '1 1 auto',
               justifyContent: 'center',
               paddingLeft: isMobile ? 0 : 8,
+              width: isMobile ? '100%' : undefined,
+              alignItems: isMobile ? 'center' : 'flex-start',
+              textAlign: isMobile ? 'center' : 'left',
               opacity: transition ? 1 : 0.8,
               transition: 'opacity 0.3s ease-in-out'
             }}>
@@ -363,6 +371,7 @@ export default function SavingsCalculator() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 8,
+                alignItems: isMobile ? 'center' : 'flex-start',
                 transition: 'opacity 0.4s ease-in-out',
                 opacity: transition ? 1 : 0.7
               }}>
@@ -391,6 +400,7 @@ export default function SavingsCalculator() {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 8,
+                alignItems: isMobile ? 'center' : 'flex-start',
                 transition: 'opacity 0.4s ease-in-out',
                 opacity: transition ? 1 : 0.7
               }}>
@@ -424,7 +434,7 @@ export default function SavingsCalculator() {
             position: 'relative',
             borderRadius: 20,
             overflow: 'hidden',
-            height: isMobile ? 320 : 'auto'
+            height: isMobile ? 'clamp(220px, 62vw, 320px)' : 'auto'
           }}>
             {variant.images.map((src) => (
               <img

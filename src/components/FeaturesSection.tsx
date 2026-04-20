@@ -240,6 +240,157 @@ export default function FeaturesSection() {
           resetLeftFlash();
           resetRightFlash();
         }}>
+        {isMobile ? (
+          <FadeIn direction="up" style={{
+            position: 'relative',
+            width: '100%',
+            borderRadius: 24,
+            overflow: 'hidden',
+            boxShadow: '0 18px 38px rgba(0, 0, 0, 0.2), 0 6px 14px rgba(0, 0, 0, 0.12)',
+            background: '#fff'
+          }}>
+            <div style={{
+              position: 'relative',
+              height: 220,
+              overflow: 'hidden'
+            }}>
+              <img
+                src={cardLandscape}
+                alt="SunZero Solutions Background"
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover',
+                  objectPosition: '72% center',
+                  display: 'block'
+                }}
+              />
+              <div style={{
+                position: 'absolute',
+                inset: 0,
+                background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, rgba(8, 16, 24, 0.48) 100%)'
+              }} />
+            </div>
+
+            <div style={{
+              padding: '16px 14px 8px',
+              background: 'linear-gradient(180deg, #FFFFFF 0%, #FFF8EE 100%)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 16
+            }}>
+              {[
+                {
+                  num: 1,
+                  title: 'SEAS-Solar Energy As a Service',
+                  body: 'We can shape this brighter future by understanding climate risk, empowering businesses to bring down emissions and minimising carbon pollution through financial incentives.'
+                },
+                {
+                  num: 2,
+                  title: 'BEAS-Battery Energy As a Service',
+                  body: 'Say no to cost-heavy, high-maintenance diesel generators by using our Li-ION Battery with No Upfront Cost.'
+                }
+              ].map((card) => (
+                <div key={card.num} style={{
+                  borderRadius: 14,
+                  padding: '12px 12px 10px',
+                  border: '1px solid rgba(0, 0, 0, 0.09)',
+                  background: 'rgba(255, 255, 255, 0.9)'
+                }}>
+                  <div style={{
+                    width: 20,
+                    height: 20,
+                    borderRadius: '50%',
+                    border: '1px solid rgba(0,0,0,0.28)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'rgba(0, 0, 0, 0.52)',
+                    fontSize: '11px',
+                    fontFamily: 'Geist, sans-serif',
+                    fontWeight: '700',
+                    marginBottom: 8
+                  }}>{card.num}</div>
+                  <div style={{
+                    fontSize: '0.88rem',
+                    fontFamily: '"Owners Wide Black", sans-serif',
+                    fontWeight: '600',
+                    letterSpacing: '0.02em',
+                    color: '#000',
+                    textTransform: 'uppercase',
+                    lineHeight: '1.2',
+                    marginBottom: 8
+                  }}>{card.title}</div>
+                  <div style={{
+                    fontSize: '11px',
+                    fontFamily: 'Geist, sans-serif',
+                    fontWeight: '500',
+                    color: 'rgba(0, 0, 0, 0.66)',
+                    letterSpacing: '0.01em',
+                    lineHeight: '1.38'
+                  }}>
+                    {card.body}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{
+              padding: '8px 14px 16px',
+              background: 'linear-gradient(180deg, #FFF8EE 0%, #FFF2D9 100%)'
+            }}>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+                gap: 10
+              }}>
+                {[
+                  { num: 3, title: 'Energy\nManagement' },
+                  { num: 4, title: 'AI & IOT Based\nOptimization' },
+                  { num: 5, title: 'ESG Profiling and\nCompliance' },
+                  { num: 6, title: 'Energy & Carbon\nTrading' }
+                ].map((card) => (
+                  <div key={card.num} style={{
+                    minHeight: 86,
+                    borderRadius: 12,
+                    border: '1px solid rgba(0, 0, 0, 0.1)',
+                    background: 'rgba(255, 255, 255, 0.88)',
+                    padding: '10px 10px 9px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 8
+                  }}>
+                    <div style={{
+                      width: 17,
+                      height: 17,
+                      borderRadius: '50%',
+                      border: '1px solid rgba(0,0,0,0.28)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'rgba(0, 0, 0, 0.52)',
+                      fontSize: '10px',
+                      fontFamily: 'Geist, sans-serif',
+                      fontWeight: '700'
+                    }}>{card.num}</div>
+                    <div style={{
+                      fontSize: '0.76rem',
+                      fontFamily: 'Geist, sans-serif',
+                      fontWeight: '700',
+                      letterSpacing: '0.02em',
+                      color: '#111',
+                      textTransform: 'uppercase',
+                      lineHeight: '1.2',
+                      whiteSpace: 'pre-line'
+                    }}>{card.title}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </FadeIn>
+        ) : (
         <FadeIn direction="up" style={{
           position: 'relative',
           width: '100%',
@@ -471,6 +622,7 @@ export default function FeaturesSection() {
             ))}
           </div>
         </FadeIn>
+        )}
         </div>
 
       </div>
