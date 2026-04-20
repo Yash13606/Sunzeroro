@@ -1,11 +1,175 @@
+import { useEffect, useState } from 'react';
+import type { MouseEvent } from 'react';
 import { FadeIn } from '../hooks/useAnimations';
 import { useResponsive } from '../hooks/useResponsive';
-import heroBg from '../assets/background/hero-bg.jpg';
-import flashDark from '../assets/background/flash.png';
-import flashGold from '../assets/background/flash-gold.png';
+import cardLandscape from '../../Background and symbol-20260415T085518Z-3-001/Background and symbol/pexels-ben-collins-41034267-7330260.jpg';
+import flashGoldLocal from '../../Background and symbol-20260415T085518Z-3-001/Background and symbol/Flash.png';
+import flashDarkLocal from '../../Background and symbol-20260415T085518Z-3-001/Background and symbol/Flash v2.png';
+
+type AlphaMap = {
+  width: number;
+  height: number;
+  data: Uint8ClampedArray;
+};
+
+const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
+
+const loadAlphaMap = (src: string, onReady: (map: AlphaMap) => void) => {
+  const image = new Image();
+  image.onerror = () => {
+    // If image pixels are unavailable, skip alpha-hit mode instead of crashing the UI.
+    onReady({ width: 0, height: 0, data: new Uint8ClampedArray(0) });
+  };
+  image.onload = () => {
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = image.naturalWidth;
+      canvas.height = image.naturalHeight;
+      const context = canvas.getContext('2d');
+      if (!context) {
+        onReady({ width: 0, height: 0, data: new Uint8ClampedArray(0) });
+        return;
+      }
+
+      context.drawImage(image, 0, 0);
+      const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+      onReady({ width: canvas.width, height: canvas.height, data: imageData.data });
+    } catch {
+      onReady({ width: 0, height: 0, data: new Uint8ClampedArray(0) });
+    }
+  };
+  image.src = src;
+};
+
+const getFlashHit = (
+  pointerX: number,
+  pointerY: number,
+  centerX: number,
+  centerY: number,
+  width: number,
+  alphaMap: AlphaMap | null
+) => {
+  if (!alphaMap || alphaMap.width === 0 || alphaMap.height === 0 || alphaMap.data.length === 0) {
+    return { hit: false, normalizedX: 0, normalizedY: 0 };
+  }
+
+  const renderedHeight = width * (alphaMap.height / alphaMap.width);
+  const left = centerX - (width / 2);
+  const top = centerY - (renderedHeight / 2);
+  const localX = (pointerX - left) / width;
+  const localY = (pointerY - top) / renderedHeight;
+
+  if (localX < 0 || localX >= 1 || localY < 0 || localY >= 1) {
+    return { hit: false, normalizedX: 0, normalizedY: 0 };
+  }
+
+  const sampleX = Math.floor(localX * alphaMap.width);
+  const sampleY = Math.floor(localY * alphaMap.height);
+  const alphaIndex = ((sampleY * alphaMap.width) + sampleX) * 4 + 3;
+  const isOpaque = alphaMap.data[alphaIndex] > 18;
+
+  return {
+    hit: isOpaque,
+    normalizedX: clamp((localX - 0.5) * 2, -1, 1),
+    normalizedY: clamp((localY - 0.5) * 2, -1, 1)
+  };
+};
 
 export default function FeaturesSection() {
   const { isMobile } = useResponsive();
+  const [leftFlashTilt, setLeftFlashTilt] = useState(0);
+  const [rightFlashTilt, setRightFlashTilt] = useState(0);
+  const [leftFlashHovered, setLeftFlashHovered] = useState(false);
+  const [leftFlashLocalX, setLeftFlashLocalX] = useState(0);
+  const [leftFlashLocalY, setLeftFlashLocalY] = useState(0);
+  const [rightFlashHovered, setRightFlashHovered] = useState(false);
+  const [rightFlashLocalX, setRightFlashLocalX] = useState(0);
+  const [rightFlashLocalY, setRightFlashLocalY] = useState(0);
+  const [leftFlashAlphaMap, setLeftFlashAlphaMap] = useState<AlphaMap | null>(null);
+  const [rightFlashAlphaMap, setRightFlashAlphaMap] = useState<AlphaMap | null>(null);
+  const desktopCardWidth = 1704.8;
+  const desktopCardHeight = 555;
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    loadAlphaMap(flashGoldLocal, setLeftFlashAlphaMap);
+    loadAlphaMap(flashDarkLocal, setRightFlashAlphaMap);
+  }, []);
+
+  const resetLeftFlash = () => {
+    setLeftFlashTilt(0);
+    setLeftFlashHovered(false);
+    setLeftFlashLocalX(0);
+    setLeftFlashLocalY(0);
+  };
+
+  const resetRightFlash = () => {
+    setRightFlashTilt(0);
+    setRightFlashHovered(false);
+    setRightFlashLocalX(0);
+    setRightFlashLocalY(0);
+  };
+
+  const handleLeftFlashHoverMove = (normalizedX: number, normalizedY: number) => {
+    if (isMobile) return;
+
+    setLeftFlashTilt(normalizedX);
+    setLeftFlashHovered(true);
+
+    setLeftFlashLocalX(normalizedX);
+    setLeftFlashLocalY(normalizedY);
+  };
+
+  const handleRightFlashHoverMove = (normalizedX: number, normalizedY: number) => {
+    if (isMobile) return;
+
+    setRightFlashTilt(normalizedX);
+    setRightFlashHovered(true);
+
+    setRightFlashLocalX(normalizedX);
+    setRightFlashLocalY(normalizedY);
+  };
+
+  const handleFlashCanvasMove = (event: MouseEvent<HTMLDivElement>) => {
+    if (isMobile) return;
+
+    const rect = event.currentTarget.getBoundingClientRect();
+    const pointerX = event.clientX - rect.left;
+    const pointerY = event.clientY - rect.top;
+
+    const leftCenterX = rect.width * ((isMobile ? 30 : 35) / 100);
+    const leftCenterY = rect.height * ((isMobile ? 90.5 : 40.8) / 100);
+    const leftWidth = isMobile ? 800 : 1000;
+
+    const rightCenterX = rect.width * ((isMobile ? 56 : 48.3) / 100);
+    const rightCenterY = rect.height * ((isMobile ? 95 : 58.3) / 100);
+    const rightWidth = isMobile ? 800 : 1000;
+
+    const rightHit = getFlashHit(pointerX, pointerY, rightCenterX, rightCenterY, rightWidth, rightFlashAlphaMap);
+    if (rightHit.hit) {
+      resetLeftFlash();
+      handleRightFlashHoverMove(rightHit.normalizedX, rightHit.normalizedY);
+      return;
+    }
+
+    const leftHit = getFlashHit(pointerX, pointerY, leftCenterX, leftCenterY, leftWidth, leftFlashAlphaMap);
+    if (leftHit.hit) {
+      resetRightFlash();
+      handleLeftFlashHoverMove(leftHit.normalizedX, leftHit.normalizedY);
+      return;
+    }
+
+    resetLeftFlash();
+    resetRightFlash();
+  };
+
+  const leftFlashHoverAngle = leftFlashHovered ? -7 + (leftFlashLocalX * -2) : 0;
+  const leftFlashHoverOffsetX = leftFlashHovered ? -10 + (leftFlashLocalX * -3) : 0;
+  const leftFlashHoverOffsetY = leftFlashHovered ? -8 + (leftFlashLocalY * -2) : 0;
+  const rightFlashHoverAngle = rightFlashHovered ? 7 + (rightFlashLocalX * 2) : 0;
+  const rightFlashHoverOffsetX = rightFlashHovered ? 10 + (rightFlashLocalX * 3) : 0;
+  const rightFlashHoverOffsetY = rightFlashHovered ? -8 + (rightFlashLocalY * -2) : 0;
 
   return (
     <>
@@ -61,67 +225,146 @@ export default function FeaturesSection() {
       {/* Service Cards Section */}
       <div style={{
         width: '100%',
-        padding: isMobile ? '20px 20px 60px' : '40px 100px 100px',
-        background: 'white',
+        background: 'linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 68.2682%, #FDA720 100%)',
+        height: 'min-content',
+        overflow: 'clip',
         display: 'flex',
-        flexDirection: isMobile ? 'column' : 'row',
-        gap: isMobile ? 24 : 20
+        flexFlow: 'row',
+        placeContent: 'center',
+        alignItems: 'center',
+        gap: 0,
+        position: 'relative',
+        padding: isMobile ? '0 16px 80px' : '0 100px 100px'
       }}>
-        {/* Left: Big image with Card 1 & 2 overlaid */}
-        <FadeIn direction="up" style={{ flex: isMobile ? '0 0 100%' : '0 0 68%', position: 'relative', borderRadius: 20, overflow: 'hidden', minHeight: isMobile ? 300 : 555 }}>
+        <div style={{ width: '100%' }} onMouseMove={handleFlashCanvasMove} onMouseLeave={() => {
+          resetLeftFlash();
+          resetRightFlash();
+        }}>
+        <FadeIn direction="up" style={{
+          position: 'relative',
+          width: '100%',
+          height: isMobile ? 360 : desktopCardHeight,
+          overflow: 'hidden',
+          maxWidth: desktopCardWidth,
+          margin: '0 auto',
+          boxShadow: '0 24px 56px rgba(0, 0, 0, 0.22), 0 8px 18px rgba(0, 0, 0, 0.12)'
+        }}>
           {/* Sunset landscape background */}
           <img
-            src={heroBg}
+            src={cardLandscape}
             alt="SunZero Solutions Background"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-          />
-
-          {/* Golden lightning bolt - center-left, slightly behind */}
-          <img
-            src={flashGold}
-            alt=""
             style={{
               position: 'absolute',
-              top: isMobile ? '54%' : '50%',
-              left: isMobile ? '52%' : '47%',
-              transform: 'translate(-50%, -50%) rotate(5deg)',
-              width: isMobile ? '260px' : '800px',
-              height: 'auto',
-              zIndex: 1,
-              pointerEvents: 'none',
+              inset: 0,
+              width: '82%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: '100% center',
+              display: 'block',
+              zIndex: 1
             }}
           />
 
-          {/* Dark blue lightning bolt - center-right, in front */}
-          <img
-            src={flashDark}
-            alt=""
-            style={{
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(180deg, rgba(130, 170, 210, 0.16) 0%, rgba(90, 130, 170, 0.08) 42%, rgba(40, 70, 95, 0.10) 100%)',
+            zIndex: 2,
+            pointerEvents: 'none'
+          }} />
+          {/* White card rail overlay */}
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            bottom: 0,
+            width: isMobile ? '57%' : 254,
+            background: 'linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 72%, #FFFBF7 100%)',
+            boxShadow: '14px 0 36px rgba(0, 0, 0, 0.09), 6px 0 14px rgba(0, 0, 0, 0.05)',
+            zIndex: 4
+          }} />
+
+          {/* Flash group (matches Framer 1eqr687 structure) */}
+          <div style={{ position: 'absolute', inset: 0, zIndex: 5, pointerEvents: 'none' }}>
+            <div style={{
               position: 'absolute',
-              top: isMobile ? '68%' : '68%',
-              left: isMobile ? '70%' : '65%',
-              transform: 'translate(-50%, -45%) rotate(-8deg)',
-              width: isMobile ? '260px' : '800px',
-              height: 'auto',
-              zIndex: 5,
+              top: isMobile ? '90.5%' : '40.8%',
+              left: isMobile ? '30%' : '35%',
+              width: isMobile ? 800 : 1000,
+              transform: `translate(-50%, -50%) translate(${leftFlashHoverOffsetX}px, ${leftFlashHoverOffsetY}px) rotate(${(-leftFlashTilt * 2) + leftFlashHoverAngle}deg)`,
+              transition: 'transform 220ms cubic-bezier(0.22, 1, 0.36, 1)',
+              willChange: 'transform',
               pointerEvents: 'none',
-            }}
-          />
+              opacity: 1
+            }}>
+              <img
+                src={flashGoldLocal}
+                alt=""
+                style={{ display: 'block', width: '100%', height: 'auto', pointerEvents: 'none' }}
+              />
+            </div>
+            <div style={{
+              position: 'absolute',
+              top: isMobile ? '95%' : '58.3%',
+              left: isMobile ? '56%' : '48.3%',
+              width: isMobile ? 800 : 1000,
+              transform: `translate(-50%, -50%) translate(${rightFlashHoverOffsetX}px, ${rightFlashHoverOffsetY}px) rotate(${(rightFlashTilt * 2) + rightFlashHoverAngle}deg)`,
+              transition: 'transform 220ms cubic-bezier(0.22, 1, 0.36, 1)',
+              willChange: 'transform',
+              pointerEvents: 'none',
+              opacity: 1
+            }}>
+              <img
+                src={flashDarkLocal}
+                alt=""
+                style={{ display: 'block', width: '100%', height: 'auto', pointerEvents: 'none' }}
+              />
+            </div>
+          </div>
 
           {/* Card 1 overlay - top-left */}
-          <div style={{ position: 'absolute', top: isMobile ? 12 : 40, left: isMobile ? 12 : 40, right: isMobile ? 'auto' : 'auto', maxWidth: isMobile ? 150 : 260, zIndex: 3 }}>
+          <div style={{
+            position: 'absolute',
+            top: isMobile ? 0 : 44,
+            left: isMobile ? 30 : 100,
+            width: isMobile ? 180 : 300,
+            height: isMobile ? 'auto' : 228,
+            padding: isMobile ? 0 : 20,
+            boxSizing: 'border-box',
+            zIndex: 6
+          }}>
             <div style={{
-              width: isMobile ? 24 : 32, height: isMobile ? 24 : 32, borderRadius: '50%', border: '1.5px solid rgba(255,255,255,0.5)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white',
-              fontSize: isMobile ? '11px' : '14px', fontFamily: 'Geist, sans-serif', fontWeight: '500', marginBottom: 8
+              width: isMobile ? 20 : 20,
+              height: isMobile ? 20 : 20,
+              borderRadius: '50%',
+              border: '1px solid rgba(0,0,0,0.28)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'rgba(0, 0, 0, 0.52)',
+              fontSize: isMobile ? '11px' : '12.8px',
+              fontFamily: 'Geist, sans-serif',
+              fontWeight: '700',
+              marginBottom: isMobile ? 8 : 10
             }}>1</div>
             <div style={{
-              fontSize: isMobile ? '0.75rem' : '1.5rem', fontFamily: '"Owners Wide", serif', fontWeight: '700',
-              color: '#000', textTransform: 'uppercase' as const, lineHeight: '110%', marginBottom: isMobile ? 8 : 16
+              fontSize: isMobile ? '0.9rem' : '1.5rem',
+              fontFamily: '"Owners Wide Black", sans-serif',
+              fontWeight: '600',
+              letterSpacing: '0.02em',
+              color: '#000',
+              textTransform: 'uppercase' as const,
+              lineHeight: '1.1',
+              marginBottom: isMobile ? 8 : 10
             }}>SEAS-Solar Energy As a Service</div>
             <div style={{
-              fontSize: isMobile ? '8px' : '10px', fontFamily: 'Geist, sans-serif', fontWeight: '500',
-              color: 'rgba(255,255,255,0.7)', lineHeight: '1.5'
+              fontSize: isMobile ? '9px' : '10.08px',
+              maxWidth: isMobile ? 160 : 236,
+              fontFamily: 'Geist, sans-serif',
+              fontWeight: '500',
+              color: 'rgba(0, 0, 0, 0.62)',
+              letterSpacing: '0.02em',
+              lineHeight: '1.3'
             }}>
               We can shape this brighter future by understanding climate risk, empowering businesses to bring down emissions and minimising carbon pollution through financial incentives.
             </div>
@@ -130,62 +373,107 @@ export default function FeaturesSection() {
           {/* Card 2 overlay - center-right area */}
           <div style={{
             position: 'absolute',
-            top: isMobile ? 12 : 40,
-            left: isMobile ? '52%' : '56%',
-            right: 'auto',
-            maxWidth: isMobile ? 150 : 260,
-            zIndex: 3
+            top: isMobile ? 96 : 128,
+            left: isMobile ? '40%' : 720,
+            width: isMobile ? 180 : 300,
+            height: isMobile ? 'auto' : 286,
+            padding: isMobile ? 0 : 20,
+            boxSizing: 'border-box',
+            zIndex: 6
           }}>
             <div style={{
-              width: isMobile ? 24 : 32, height: isMobile ? 24 : 32, borderRadius: '50%', border: '1.5px solid rgba(255,255,255,0.5)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white',
-              fontSize: isMobile ? '11px' : '14px', fontFamily: 'Geist, sans-serif', fontWeight: '500', marginBottom: 8
+              width: isMobile ? 20 : 20,
+              height: isMobile ? 20 : 20,
+              borderRadius: '50%',
+              border: '1px solid rgba(0,0,0,0.28)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'rgba(0, 0, 0, 0.52)',
+              fontSize: isMobile ? '11px' : '12.8px',
+              fontFamily: 'Geist, sans-serif',
+              fontWeight: '700',
+              marginBottom: isMobile ? 8 : 10
             }}>2</div>
             <div style={{
-                fontSize: isMobile ? '0.75rem' : '1.5rem', fontFamily: '"Owners Wide", serif', fontWeight: '700',
-                color: '#000', fontStyle: 'normal', textTransform: 'uppercase' as const, lineHeight: '110%', marginBottom: isMobile ? 8 : 16
+              fontSize: isMobile ? '0.9rem' : '1.5rem',
+              fontFamily: '"Owners Wide Black", sans-serif',
+              fontWeight: '600',
+              letterSpacing: '0.02em',
+              color: '#000',
+              textTransform: 'uppercase' as const,
+              lineHeight: '1.1',
+              marginBottom: isMobile ? 8 : 10
             }}>BEAS-Battery Energy As a Service</div>
             <div style={{
-              fontSize: isMobile ? '8px' : '10px', fontFamily: 'Geist, sans-serif', fontWeight: '500',
-              color: 'rgba(255,255,255,0.7)', lineHeight: '1.5'
+              fontSize: isMobile ? '9px' : '10.08px',
+              maxWidth: isMobile ? 160 : 236,
+              fontFamily: 'Geist, sans-serif',
+              fontWeight: '500',
+              color: 'rgba(0, 0, 0, 0.62)',
+              letterSpacing: '0.02em',
+              lineHeight: '1.3'
             }}>
               Say no to cost-heavy, high-maintenance diesel generators by using our Li-ION Battery with No Upfront Cost.
             </div>
           </div>
+          {/* Right: Cards 3-6 */}
+          <div style={{
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            right: isMobile ? 14 : 32,
+            width: isMobile ? 'calc(57% - 32px)' : 184,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'flex-start',
+            gap: isMobile ? 30 : 40,
+            paddingTop: isMobile ? 44 : 56,
+            paddingBottom: isMobile ? 44 : 56,
+            boxSizing: 'border-box',
+            zIndex: 6
+          }}>
+            {[
+              { num: 3, title: 'Energy\nManagement' },
+              { num: 4, title: 'AI & IOT Based\nOptimization' },
+              { num: 5, title: 'ESG Profiling and\nCompliance' },
+              { num: 6, title: 'Energy & Carbon\nTrading' }
+            ].map((card, idx) => (
+              <FadeIn key={card.num} delay={idx * 0.15} direction="right">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: isMobile ? 6 : 6 }}>
+                  <div style={{
+                    width: isMobile ? 17 : 17,
+                    height: isMobile ? 17 : 17,
+                    borderRadius: '50%',
+                    border: '1px solid rgba(0,0,0,0.28)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: 'rgba(0, 0, 0, 0.52)',
+                    fontSize: isMobile ? '10px' : '13.5px',
+                    fontFamily: 'Geist, sans-serif',
+                    fontWeight: '700'
+                  }}>{card.num}</div>
+                  <div style={{
+                    fontSize: isMobile ? '0.92rem' : '1.08rem',
+                    fontFamily: 'Geist, sans-serif',
+                    fontWeight: '600',
+                    letterSpacing: '0.02em',
+                    color: '#000',
+                    textTransform: 'uppercase' as const,
+                    lineHeight: '1.1',
+                    whiteSpace: 'pre-line',
+                    maxWidth: isMobile ? '100%' : 168
+                  }}>{card.title}</div>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
         </FadeIn>
-
-        {/* Right: Cards 3-6 */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 24, paddingTop: isMobile ? 0 : 20 }}>
-          {[
-            { num: 3, title: 'Energy\nManagement' },
-            { num: 4, title: 'AI & IOT Based\nOptimization' },
-            { num: 5, title: 'ESG Profiling and\nCompliance' },
-            { num: 6, title: 'Energy & Carbon\nTrading' }
-          ].map((card, idx) => (
-            <FadeIn key={card.num} delay={idx * 0.15} direction="right">
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <div style={{
-                  width: 32, height: 32, borderRadius: '50%', border: '1.5px solid rgba(0,0,0,0.2)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#333',
-                  fontSize: '14px', fontFamily: 'Geist, sans-serif', fontWeight: '500'
-                }}>{card.num}</div>
-                <div style={{
-                  fontSize: isMobile ? '0.9rem' : '1rem', fontFamily: '"Owners Wide", serif', fontWeight: '700',
-                  color: '#000', textTransform: 'uppercase' as const, lineHeight: '110%',
-                  whiteSpace: 'pre-line'
-                }}>{card.title}</div>
-              </div>
-            </FadeIn>
-          ))}
         </div>
-      </div>
 
-      {/* Gradient transition to amber */}
-      <div style={{
-        width: '100%',
-        height: 200,
-        background: 'linear-gradient(180deg, #FFFFFF 0%, #FFFFFF 30%, #FDA720 100%)'
-      }} />
+      </div>
 
       {/* Amber Video Section - rounded */}
       <div style={{
@@ -214,3 +502,5 @@ export default function FeaturesSection() {
     </>
   );
 }
+
+
