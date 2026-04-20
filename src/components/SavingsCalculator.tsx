@@ -213,16 +213,16 @@ export default function SavingsCalculator() {
           height: isMobile ? 'auto' : 560
         }}>
           <div style={{
-            flex: isMobile ? '0 0 auto' : '0 0 auto',
+            flex: isMobile ? '0 0 auto' : '0 0 50%',
             minWidth: 0,
             background: 'linear-gradient(135deg, #f5f7fa 0%, #f0f3f8 100%)',
             borderRadius: 20,
             padding: isMobile ? '32px 20px' : '60px 40px',
             display: 'flex',
             flexDirection: isMobile ? 'column' : 'row',
-            gap: isMobile ? 20 : 50,
+            gap: isMobile ? 20 : 36,
             alignItems: isMobile ? 'center' : 'center',
-            justifyContent: 'flex-start',
+            justifyContent: 'center',
             boxShadow: '0 2px 8px rgba(0, 0, 0, 0.04)',
             border: '1px solid rgba(0, 0, 0, 0.04)'
           }}>
@@ -355,7 +355,7 @@ export default function SavingsCalculator() {
               fontWeight: '700',
               flex: isMobile ? '0 0 auto' : '1 1 auto',
               justifyContent: 'center',
-              paddingLeft: isMobile ? 0 : 20,
+              paddingLeft: isMobile ? 0 : 8,
               opacity: transition ? 1 : 0.8,
               transition: 'opacity 0.3s ease-in-out'
             }}>
