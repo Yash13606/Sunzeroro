@@ -272,6 +272,35 @@ export default function FeaturesSection() {
                 inset: 0,
                 background: 'linear-gradient(180deg, rgba(255, 255, 255, 0.02) 0%, rgba(8, 16, 24, 0.48) 100%)'
               }} />
+
+              <img
+                src={flashGoldLocal}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  top: -15,
+                  left: '50%',
+                  width: 360,
+                  height: 'auto',
+                  opacity: 0.92,
+                  transform: 'translateX(-66%) rotate(-8deg)',
+                  pointerEvents: 'none'
+                }}
+              />
+              <img
+                src={flashDarkLocal}
+                alt=""
+                style={{
+                  position: 'absolute',
+                  top: 26,
+                  left: '44%',
+                  width: 360,
+                  height: 'auto',
+                  opacity: 0.94,
+                  transform: 'translateX(-4%) rotate(18deg)',
+                  pointerEvents: 'none'
+                }}
+              />
             </div>
 
             <div style={{
