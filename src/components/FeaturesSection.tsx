@@ -292,12 +292,12 @@ export default function FeaturesSection() {
                 alt=""
                 style={{
                   position: 'absolute',
-                  top: 26,
+                  top: 15,
                   left: '44%',
                   width: 360,
                   height: 'auto',
                   opacity: 0.94,
-                  transform: 'translateX(-4%) rotate(18deg)',
+                  transform: 'translateX(-40%) rotate(-8deg)',
                   pointerEvents: 'none'
                 }}
               />
